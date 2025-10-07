@@ -1,11 +1,17 @@
 
 'use client';
 
-import { useUser } from '@clerk/nextjs';
+import { useUser , useAuth } from '@clerk/nextjs';
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
-
+  const{getToken} = useAuth();
+  const token_fun = async () => {
+     const token = await getToken();
+     console.log(token);
+  }
+  token_fun();
+  console.lo
   if (!isLoaded) {
     return <div className="p-10 text-center">Loading...</div>;
   }

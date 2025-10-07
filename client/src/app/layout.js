@@ -3,8 +3,8 @@ import Navbar from '@/components/Navbar';
 import './globals.css';
 
 export const metadata = {
-  title: 'Auth App',
-  description: 'Authentication with Clerk',
+  title: 'Beyond_Chats',
+  description: 'Beyond Chats',
 };
 
 export default function RootLayout({ children }) {

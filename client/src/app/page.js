@@ -21,7 +21,7 @@ export default function HomePage() {
     );
   }
 
-  // Show sign-in prompt if not logged in
+  
   if (!isSignedIn) {
     return <SignInPrompt />;
   }

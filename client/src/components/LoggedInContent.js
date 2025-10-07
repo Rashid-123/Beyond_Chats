@@ -2,17 +2,25 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
-
+import PDFUploader from './PDFUploader';
+import ALLpdf from './ALLpdf';
+import { useState } from 'react';
 export default function LoggedInContent() {
   const { user } = useUser();
+  const [refreshFlag, setRefreshFlag] = useState(false);
+
+  const handleUploadSuccess = () => {
+    setRefreshFlag((prev) => !prev);
+  }
 
   return (
     <div className="max-w-[1200px] mx-auto px-5 py-10">
+
       <div className="bg-white p-10 rounded-xl shadow-md text-center">
         <h1 className="text-4xl text-gray-800 mb-5">
           Welcome Back!
         </h1>
-        
+
         <p className="text-xl text-gray-600 mb-8">
           Hello, {user?.firstName || 'User'}! You are successfully logged in and synced with the backend.
         </p>
@@ -28,6 +36,9 @@ export default function LoggedInContent() {
           </p>
         </div>
       </div>
+      <PDFUploader onUploadSuccess={handleUploadSuccess} />
+      <ALLpdf refreshFlag={refreshFlag} />
+
     </div>
   );
 }
