@@ -26,6 +26,6 @@ export default function HomePage() {
     return <SignInPrompt />;
   }
 
-  // Show custom content if logged in
+  
   return <LoggedInContent />;
 }

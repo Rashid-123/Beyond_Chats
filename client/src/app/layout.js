@@ -11,9 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>
+        <body >
           <Navbar />
-          <main>{children}</main>
+          <div className='pt-15'>   <main>{children}</main></div>
+       
         </body>
       </html>
     </ClerkProvider>

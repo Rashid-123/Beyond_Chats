@@ -189,9 +189,9 @@ export default function PDFUploader({ onUploadSuccess }) {
 
   const getProgressColor = (stage) => {
     switch (stage) {
-      case 'complete': return 'text-green-600';
-      case 'error': return 'text-red-600';
-      default: return 'text-blue-600';
+      case 'complete': return '#059669'; // Green
+      case 'error': return '#DC2626'; // Red
+      default: return '#d6a676'; // Warm gold
     }
   };
 
@@ -227,9 +227,15 @@ export default function PDFUploader({ onUploadSuccess }) {
   if (!pdfJsReady) {
     return (
       <div className="max-w-2xl mx-auto p-6">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <div className="flex items-center justify-center gap-3 text-gray-600">
-            <Loader2 className="w-6 h-6 animate-spin" />
+        <div 
+          className="rounded-xl shadow-lg p-8 border"
+          style={{ 
+            backgroundColor: '#faf7f2',
+            borderColor: '#f0eae2'
+          }}
+        >
+          <div className="flex items-center justify-center gap-3" style={{ color: '#7d7061' }}>
+            <Loader2 className="w-6 h-6 animate-spin" style={{ color: '#d6a676' }} />
             <span>Loading PDF tools...</span>
           </div>
         </div>
@@ -239,20 +245,34 @@ export default function PDFUploader({ onUploadSuccess }) {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <FileText className="w-6 h-6" />
-          Upload PDFs with Page-wise Text Extraction
+      <div 
+        className="rounded-xl bg-white shadow-sm p-8 border"
+        style={{ 
+        
+          borderColor: '#f0eae2'
+        }}
+      >
+        <h2 
+          className="text-2xl font-bold mb-6 flex items-center gap-2"
+          style={{ color: '#201c17' }}
+        >
+          <FileText className="w-6 h-6" style={{ color: '#d6a676' }} />
+          Upload PDFs
         </h2>
 
         <div className="mb-6">
           <label className="block w-full">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors cursor-pointer">
-              <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600 mb-2">
+            <div 
+              className="border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer"
+              style={{ borderColor: '#f3e4d6' }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = '#d6a676'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = '#f3e4d6'}
+            >
+              <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: '#b0a496' }} />
+              <p className="mb-2" style={{ color: '#7d7061' }}>
                 Click to select PDF files
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm" style={{ color: '#8e7061' }}>
                 Text will be extracted page-by-page before upload
               </p>
             </div>
@@ -269,17 +289,31 @@ export default function PDFUploader({ onUploadSuccess }) {
 
         {files.length > 0 && (
           <div className="space-y-4 mb-6">
-            <h3 className="font-semibold text-gray-700">Selected Files:</h3>
+            <h3 className="font-semibold" style={{ color: '#3f372f' }}>
+              Selected Files:
+            </h3>
             {files.map((file, index) => (
-              <div key={index} className="bg-gray-50 p-4 rounded-lg">
+              <div 
+                key={index} 
+                className="p-4 rounded-lg border"
+                style={{ 
+                  backgroundColor: '#faf6f1',
+                  borderColor: '#f3e4d6'
+                }}
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">{file.name}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="font-medium" style={{ color: '#201c17' }}>
+                      {file.name}
+                    </p>
+                    <p className="text-sm" style={{ color: '#8e7061' }}>
                       {(file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                     {progress[file.name] && (
-                      <div className={`flex items-center gap-2 mt-2 ${getProgressColor(progress[file.name].stage)}`}>
+                      <div 
+                        className="flex items-center gap-2 mt-2"
+                        style={{ color: getProgressColor(progress[file.name].stage) }}
+                      >
                         {getProgressIcon(progress[file.name].stage)}
                         <span className="text-sm font-medium">
                           {getProgressText(file.name)}
@@ -296,7 +330,21 @@ export default function PDFUploader({ onUploadSuccess }) {
         <button
           onClick={handleUpload}
           disabled={files.length === 0 || uploading}
-          className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+          className="w-full py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-95 disabled:cursor-not-allowed"
+          style={{
+            backgroundColor: files.length === 0 || uploading ? '#e5e7eb' : '#d6a676',
+            color: files.length === 0 || uploading ? '#9ca3af' : '#faf7f2'
+          }}
+          onMouseEnter={(e) => {
+            if (files.length > 0 && !uploading) {
+              e.currentTarget.style.backgroundColor = '#ad7f51';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (files.length > 0 && !uploading) {
+              e.currentTarget.style.backgroundColor = '#d6a676';
+            }
+          }}
         >
           {uploading ? (
             <>
@@ -310,13 +358,6 @@ export default function PDFUploader({ onUploadSuccess }) {
             </>
           )}
         </button>
-
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <p className="text-sm text-blue-800">
-            <strong>Note:</strong> Text extraction happens page-by-page in your browser.
-            Each page is stored separately for better citations and retrieval!
-          </p>
-        </div>
       </div>
     </div>
   );

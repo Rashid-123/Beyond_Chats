@@ -2,11 +2,11 @@ import User from '../models/User.js';
 
 export const syncUser = async (req, res) => {
   try {
-    const { userId } = req.auth;
+    const { clerkId } = req.auth;
 
     // Check if user exists
-    let user = await User.findOne({ clerkId: userId });
-
+    let user = await User.findOne({ clerkId: clerkId });
+ 
     if (user) {
       // User exists, update lastSyncAt
       user.lastSyncAt = new Date();
@@ -19,9 +19,9 @@ export const syncUser = async (req, res) => {
       });
     }
 
-    // Create new user
+    // create new user
     user = await User.create({
-      clerkId: userId,
+      clerkId: clerkId,
       createdAt: new Date(),
       lastSyncAt: new Date()
     });
