@@ -7,6 +7,8 @@ import userRoutes from './routes/userRoutes.js';
 import pdfRoutes from  './routes/pdfRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
+import chatRoutes from "./routes/chatRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -27,7 +29,8 @@ app.use('/api/user', userRoutes);
 app.use('/api/pdf', pdfRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/progress', progressRoutes);
-
+//
+app.use('/api/chat', chatRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });

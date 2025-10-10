@@ -1,4 +1,6 @@
 import OpenAI from 'openai';
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import Quiz from '../models/Quiz.js';
 import QuizAttempt from '../models/QuizAttempt.js';
 import UserProgress from '../models/UserProgress.js';
@@ -6,9 +8,18 @@ import PDF from '../models/PDF.js';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// S3 client setup
+const s3 = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+});
+
 export const generateQuiz = async (req, res) => {
     try {
-        const { pdfId, title , description , questionCount = 10, difficulty = 'medium' } = req.body;
+        const { pdfId, title, description, questionCount = 10, difficulty = 'medium' } = req.body;
         const userId = req.auth.userId;
         console.log(`userId =  ${userId}`)
         console.log(`pdfId = ${pdfId}`)
@@ -74,7 +85,7 @@ Return only valid JSON in this exact structure:
             pdfName: pdf.fileName,
             userId,
             title,
-            description ,
+            description,
             difficulty,
             questions: questions.map((q, i) => ({
                 questionId: `q${i + 1}`,
@@ -139,7 +150,7 @@ export const getAllQuizzes = async (req, res) => {
 };
 
 //================================================================================
-//--------------------- GET SINGLE QUIZ -------------------------------------------
+//--------------------- GET SINGLE QUIZ ------------------------------------------
 export const getQuiz = async (req, res) => {
     try {
         const { quizId } = req.params;
@@ -157,7 +168,7 @@ export const getQuiz = async (req, res) => {
                 questionId: q.questionId,
                 question: q.question,
                 options: q.options,
-                pageReference: q.pageReference
+
             }))
         };
 
@@ -168,13 +179,62 @@ export const getQuiz = async (req, res) => {
     }
 };
 
+//=================================================================================
+//----------------------- QUIZE OVERVIEW -----------------------------------------
+
+
+export const getQuizOverview = async (req, res) => {
+    try {
+        const { quizId } = req.params;
+
+
+        const quiz = await Quiz.findById(quizId)
+            .select("-questions")
+            .lean();
+
+        if (!quiz) {
+            return res.status(404).json({ message: "Quiz not found" });
+        }
+
+        // fetch pdf for creating pdfurl
+        const pdf = await PDF.findById(quiz.pdfId).select("-pages").lean();
+        
+        if (!pdf) {
+            return res.status(404).json({ message: "PDF not found" });
+        }
+
+        const command = new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: pdf.s3Url,
+        });
+
+        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+
+        const attempts = await QuizAttempt.find({ quizId })
+            .select("_id score percentage totalQuestions completedAt") // include id
+            .sort({ completedAt: -1 })
+            .lean();
+
+
+        res.status(200).json({
+            quizDetails: quiz,
+            attempts,
+            pdf: {...pdf , signedUrl}
+        });
+
+    } catch (error) {
+        console.error("Error fetching quiz overview:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
 //=================================================================================================
 //------------------------------- SUBMIT QUIZ -------------------------------------------------------
 
 export const submitQuiz = async (req, res) => {
     try {
         const { quizId } = req.params;
-        const { answers } = req.body; // [{ questionId, userAnswer }]
+        const { answers } = req.body;
         const userId = req.auth.userId;
 
         const quiz = await Quiz.findById(quizId);
@@ -205,6 +265,7 @@ export const submitQuiz = async (req, res) => {
         const attempt = await QuizAttempt.create({
             quizId,
             userId,
+            pdfId: quiz.pdfId,
             answers: results.map(r => ({
                 questionId: r.questionId,
                 userAnswer: r.userAnswer,
@@ -269,17 +330,42 @@ export const getAttemptDetails = async (req, res) => {
         const { attemptId } = req.params;
         const userId = req.auth.userId;
 
-        const attempt = await QuizAttempt.findById(attemptId).populate('quizId').lean();
+
+        const attempt = await QuizAttempt.findById(attemptId)
+            .populate("quizId")
+            .lean();
+
         if (!attempt || !attempt.userId.equals(userId)) {
-            return res.status(404).json({ success: false, message: 'Attempt not found' });
+            return res.status(404).json({ success: false, message: "Attempt not found" });
         }
 
-        res.json({ success: true, attempt });
+
+        const pdf = await PDF.findById(attempt.pdfId).select("-pages").lean();
+        if (!pdf) {
+            return res.status(404).json({ success: false, message: "PDF not found" });
+        }
+
+        const command = new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: pdf.s3Url,
+        });
+
+        const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+
+     
+
+        res.json({
+            success: true,
+            attempt,
+            pdf: {...pdf , signedUrl},
+        });
     } catch (error) {
-        console.error('Get attempt error:', error);
-        res.status(500).json({ success: false, message: 'Failed to fetch attempt' });
+        console.error("Get attempt error:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch attempt" });
     }
 };
+
 
 //=====================================================================================================
 //------------------------------------- DELETE QUIZ ---------------------------------------------------

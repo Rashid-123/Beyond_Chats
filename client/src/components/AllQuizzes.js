@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import QuizCard from "./QuizCard"; // ✅ import single card component
+import QuizCard from "./QuizCard";
 
 export default function AllQuizzes() {
   const { getToken } = useAuth();
@@ -31,22 +32,55 @@ export default function AllQuizzes() {
     fetchQuizzes();
   }, [getToken]);
 
-  if (loading)
-    return <p className="text-center text-gray-600 mt-10">Loading quizzes...</p>;
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16">
+        <div className="w-12 h-12 border-4 rounded-full animate-spin mb-4" 
+             style={{ borderColor: 'var(--color-button-1)', borderTopColor: 'transparent' }}></div>
+        <p className="text-3 text-sm">Loading quizzes...</p>
+      </div>
+    );
+  }
 
-  if (error)
-    return <p className="text-center text-red-500 mt-10">{error}</p>;
+  if (error) {
+    return (
+      <div className="bg-2 border-2 border-1 rounded-xl p-8 text-center max-w-md mx-auto">
+        <div className="text-4xl mb-4">⚠️</div>
+        <p className="text-error font-medium">{error}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">
-        My Quizzes ({quizzes.length})
-      </h1>
+    <div className="mb-12">
+      {/* Section Header */}
+      <div className="mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-1 mb-2">
+          Your Quizzes
+        </h2>
+        <p className="text-3 text-sm sm:text-base">
+          {quizzes.length === 0 
+            ? "No quizzes created yet. Start by uploading a PDF!" 
+            : `${quizzes.length} ${quizzes.length === 1 ? 'quiz' : 'quizzes'} ready to practice`}
+        </p>
+      </div>
 
+      {/* Empty State */}
       {quizzes.length === 0 ? (
-        <p className="text-gray-500 text-center">No quizzes found.</p>
+        <div className="bg-2 border-2 border-dashed border-1 rounded-xl p-8 sm:p-12 text-center">
+          <div className="max-w-md mx-auto">
+            <div className="text-4xl sm:text-5xl mb-4">🎯</div>
+            <h3 className="text-lg sm:text-xl font-semibold text-2 mb-2">
+              No Quizzes Yet
+            </h3>
+            <p className="text-3 text-sm sm:text-base">
+              Create your first quiz from a PDF to start practicing
+            </p>
+          </div>
+        </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        /* Quiz Grid */
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {quizzes.map((quiz) => (
             <QuizCard key={quiz._id} quiz={quiz} />
           ))}

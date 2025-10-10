@@ -4,6 +4,7 @@ import {
   generateQuiz,
   getAllQuizzes,
   getQuiz,
+  getQuizOverview,
   submitQuiz,
   getQuizAttempts,
   getAttemptDetails,
@@ -15,6 +16,7 @@ const router = express.Router();
 router.post('/generate', userAuth, generateQuiz);
 router.get('/all', userAuth, getAllQuizzes);
 router.get('/:quizId', userAuth, getQuiz);
+router.get('/quiz-overview/:quizId', userAuth, getQuizOverview);
 router.post('/:quizId/submit', userAuth, submitQuiz);
 router.get('/:quizId/attempts', userAuth, getQuizAttempts);
 router.get('/attempt/:attemptId', userAuth, getAttemptDetails);

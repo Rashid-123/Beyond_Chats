@@ -1,42 +1,3 @@
-// import { clerkClient } from '@clerk/clerk-sdk-node';
-
-// export const authMiddleware = async (req, res, next) => {
-//   try {
-//     const authHeader = req.headers.authorization;
-
-//     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-//       return res.status(401).json({ 
-//         success: false, 
-//         message: 'No token provided' 
-//       });
-//     }
-
-//     const token = authHeader.split(' ')[1];
-//     // Verify token with Clerk
-//     const session = await clerkClient.verifyToken(token);
-    
-//     if (!session || !session.sub) {
-//       return res.status(401).json({ 
-//         success: false, 
-//         message: 'Invalid token' 
-//       });
-//     }
-
-//     // Attach userId to request
-//     req.auth = {
-//       userId: session.sub
-//     };
-
-//     next();
-//   } catch (error) {
-//     console.error('Auth middleware error:', error);
-//     return res.status(401).json({ 
-//       success: false, 
-//       message: 'Authentication failed' 
-//     });
-//   }
-// };
-
 
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import User from '../models/User.js';
@@ -88,14 +49,15 @@ export const userAuth = async (req, res, next) => {
       user = await User.create({ clerkId: session.sub });
       console.log(`🆕 Created new user with clerkId: ${session.sub}`);
     }
-
+      console.log(user)
+      console.log(user._id)
     // Attach full user info
     req.auth = {
       clerkId: session.sub,
       userId: user._id,
       user,
     };
-
+    console.log("after user")
     next();
   } catch (error) {
     console.error('🟥 User auth error:', error);
