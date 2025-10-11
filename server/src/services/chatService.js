@@ -71,7 +71,7 @@ class ChatService {
     const formattedContext = docs
       .map(
         (d) =>
-          `Page ${d.metadata.pageNumber}:\n${d.pageContent.trim()}`
+          `----Page: ${d.metadata.pageNumber}----:\n${d.pageContent.trim()}`
       )
       .join("\n\n---\n\n");
 
@@ -98,14 +98,15 @@ Rephrased Standalone Question:`,
 qaTemplate: `
 You are an expert AI assistant helping users understand their PDF document.
 
-You are given multiple text excerpts, each labeled with a "Page X" prefix.
+You are given multiple text excerpts, each labeled with a "----Page:X----" prefix.
 Use these page numbers naturally in your explanation (for example: "As explained on page 3...").
 
 Follow these rules when writing your answer:
-1️⃣ Organize your answer using **markdown-style headers** for clarity.  
-2️⃣ Write clear, concise **paragraphs** to explain concepts — avoid bullet points.  
-3️⃣ At the end, include a separate paragraph titled "📄 Page References" listing all pages that directly support your answer.  
-4️⃣ Do **not** make up page numbers or information not found in the provided context.
+1️. Organize your answer using **markdown-style headers** for clarity.  
+2️. Write clear, concise **paragraphs** to explain concepts — avoid bullet points.  
+3️. At the end, include a separate paragraph titled "📄 Page References" listing all pages that directly support your answer.  
+4️. Do **not** make up page numbers or information not found in the provided context.
+5. only provide page number in you explanation if you saw "----page:x----" in the provided context, otherwise avoid 
 
 If the answer cannot be found in the provided context, say:
 > "I couldn’t find enough information in the provided pages to answer this question."

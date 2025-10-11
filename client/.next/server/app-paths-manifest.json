@@ -1,7 +1,8 @@
 {
-  "/sign-in/page": "app/sign-in/page.js",
   "/page": "app/page.js",
   "/quiz-details/[quiz_id]/page": "app/quiz-details/[quiz_id]/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/attempt-quiz/[quiz_id]/page": "app/attempt-quiz/[quiz_id]/page.js",
   "/chat/page": "app/chat/page.js",
   "/chat/[sessionId]/page": "app/chat/[sessionId]/page.js"
 }

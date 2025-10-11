@@ -278,7 +278,7 @@ export default function QuizAttemptPage() {
                     </div>
 
                     <p className="text-3 text-sm sm:text-base text-center mb-6">
-                      Once submitted, you won't be able to change your answers.
+                      Once submitted, you were not be able to change your answers.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-3">

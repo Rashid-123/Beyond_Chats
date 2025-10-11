@@ -40,6 +40,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/quiz-details/[quiz_id]/page.js"
+    ],
+    "/attempt-quiz/[quiz_id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/attempt-quiz/[quiz_id]/page.js"
     ]
   }
 }

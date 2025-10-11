@@ -1,7 +1,7 @@
 export const config = {
   openai: {
     apiKey: process.env.OPENAI_API_KEY,
-    embeddingModel: 'text-embedding-ada-002',
+    embeddingModel: 'text-embedding-3-large',
     chatModel: 'gpt-3.5-turbo',
     temperature: 0.7,
     maxTokens: 1000
