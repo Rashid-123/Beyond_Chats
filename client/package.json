@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.33.3",
+    "@langchain/community": "^0.3.57",
+    "@langchain/core": "^0.3.78",
+    "@langchain/openai": "^0.6.15",
+    "@langchain/pinecone": "^0.2.0",
+    "@langchain/textsplitters": "^0.1.0",
     "@tailwindcss/typography": "^0.5.19",
     "axios": "^1.12.2",
     "lucide-react": "^0.545.0",
