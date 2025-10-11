@@ -1,6 +1,11 @@
 import { ChatOpenAI } from '@langchain/openai';
-import { ConversationalRetrievalQAChain } from 'langchain/chains';
-import { BufferWindowMemory } from 'langchain/memory';
+//
+// import { ConversationalRetrievalQAChain } from 'langchain/chains';
+// import { BufferWindowMemory } from 'langchain/memory';
+import { ConversationalRetrievalQAChain } from '@langchain/community/chains/conversational_retrieval_qa';
+import { BufferWindowMemory } from '@langchain/community/memory/buffer_window_memory';
+//
+
 import { ChatMessage } from '../models/ChatMessage.js';
 import { ChatSession } from '../models/ChatSession.js';
 import embeddingService from './embeddingService.js';

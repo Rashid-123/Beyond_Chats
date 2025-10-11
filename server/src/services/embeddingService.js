@@ -1,7 +1,9 @@
 import { OpenAIEmbeddings } from '@langchain/openai';
 import { PineconeStore } from '@langchain/pinecone';
 import { Pinecone } from '@pinecone-database/pinecone';
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+// import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
+
 import PDF from '../models/PDF.js';
 import { config } from '../config/config.js';
 
