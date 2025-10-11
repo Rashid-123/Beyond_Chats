@@ -24,7 +24,7 @@ export default function QuizAttemptPage() {
     const fetchQuiz = async () => {
       try {
         const token = await getToken({ template: 'long-live' });
-        const response = await axios.get(`http://localhost:5000/api/quiz/${quiz_id}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/quiz/${quiz_id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -88,7 +88,7 @@ export default function QuizAttemptPage() {
       const token = await getToken({ template: 'long-live' });
 
       const response = await axios.post(
-        `http://localhost:5000/api/quiz/${quiz_id}/submit`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/quiz/${quiz_id}/submit`,
         { answers },
         { headers: { Authorization: `Bearer ${token}` } }
       );

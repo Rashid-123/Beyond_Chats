@@ -17,7 +17,7 @@ export default function PdfViewer({ pdf, onClose }) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/10 backdrop-blur-xs z-50"
+        className="fixed inset-0 bg-black/5 backdrop-blur-xs z-50"
         onClick={onClose}
       />
 
@@ -28,7 +28,7 @@ export default function PdfViewer({ pdf, onClose }) {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-4 sm:p-6 border-b border-1 bg-2 relative">
             <div className="flex-1 min-w-0">
-              <h2 className="font-bold text-lg sm:text-xl text-1 truncate mb-1">
+              <h2 className="font-bold text-md sm:text-xl text-1 truncate mb-1">
                 {pdf.fileName}
               </h2>
               <div className="flex items-center gap-3 text-sm text-3">

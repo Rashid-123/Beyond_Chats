@@ -20,7 +20,9 @@ class EmbeddingService {
   async createEmbeddingsForPDF(pdfId) {
     try {
       // Get PDF from database
+      console.log("in side the service")
       const pdf = await PDF.findById(pdfId);
+      console.log("after pdf")
       if (!pdf) {
         throw new Error('PDF not found');
       }

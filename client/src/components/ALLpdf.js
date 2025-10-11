@@ -30,7 +30,7 @@ export default function ALLpdf({ refreshFlag }) {
       try {
         setLoading(true);
         const token = await getToken();
-        const response = await axios.get("http://localhost:5000/api/pdf/my-pdfs", {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/pdf/my-pdfs`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPdfs(response.data.pdfs);

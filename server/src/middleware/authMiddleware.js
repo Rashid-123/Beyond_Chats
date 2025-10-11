@@ -49,8 +49,8 @@ export const userAuth = async (req, res, next) => {
       user = await User.create({ clerkId: session.sub });
       console.log(`🆕 Created new user with clerkId: ${session.sub}`);
     }
-      console.log(user)
-      console.log(user._id)
+      // console.log(user)
+      // console.log(user._id)
     // Attach full user info
     req.auth = {
       clerkId: session.sub,

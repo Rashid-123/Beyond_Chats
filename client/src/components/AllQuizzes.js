@@ -17,7 +17,7 @@ export default function AllQuizzes() {
       try {
         setLoading(true);
         const token = await getToken();
-        const response = await axios.get("http://localhost:5000/api/quiz/all", {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/quiz/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setQuizzes(response.data.quizzes || []);

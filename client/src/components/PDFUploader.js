@@ -154,7 +154,7 @@ export default function PDFUploader({ onUploadSuccess }) {
       console.log('Uploading with page-wise text extraction');
 
       // Upload to backend
-      const response = await fetch('http://localhost:5000/api/pdf/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pdf/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

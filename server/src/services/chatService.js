@@ -26,9 +26,6 @@ class ChatService {
     return session;
   }
 
-
-
-
   async sendMessage(sessionId, userMessage) {
   try {
     // 1️⃣ Get chat session and verify embedding state
@@ -175,140 +172,7 @@ Helpful Answer (well-structured markdown + verified page references):`
 }
 
 
-  // async sendMessage(sessionId, userMessage) {
-  //   try {
-  //     // Get session details
-  //     const session = await ChatSession.findById(sessionId).populate('pdfId');
-  //     if (!session) {
-  //       throw new Error('Session not found');
-  //     }
-
-  //     // Check if PDF has embeddings
-  //     if (!session.pdfId.isEmbedded) {
-  //       throw new Error('PDF embeddings not ready. Please create embeddings first.');
-  //     }
-
-  //     // Get vector store
-  //     const vectorStore = await embeddingService.getVectorStore(session.pdfId._id.toString());
-
-  //     // Load chat history (last 10 messages for context)
-  //     const previousMessages = await ChatMessage.find({ sessionId })
-  //       .sort({ timestamp: -1 })
-  //       .limit(10)
-  //       .lean();
-
-  //     // Create memory with chat history
-  //     const memory = new BufferWindowMemory({
-  //       k: 5, 
-  //       memoryKey: 'chat_history',
-  //       inputKey: 'question',
-  //       outputKey: 'text',
-  //       returnMessages: true
-  //     });
-
-  //     // Add previous messages to memory
-  //     for (const msg of previousMessages.reverse()) {
-  //       if (msg.role === 'user') {
-  //         await memory.chatHistory.addUserMessage(msg.message);
-  //       } else {
-  //         await memory.chatHistory.addAIChatMessage(msg.message);
-  //       }
-  //     }
-
-
-  //    // ✅ Correct use of qaTemplate and questionGeneratorTemplate
-  //     const chain = ConversationalRetrievalQAChain.fromLLM(
-  //    this.llm,
-  //    vectorStore.asRetriever({
-  //      k: 5, 
-  //    }),
-  //    {
-  //   memory,
-  //   returnSourceDocuments: true,
-  //   questionGeneratorTemplate: `
-  //   Given the following conversation and a follow up question, 
-  //   rephrase the follow up question to be a standalone question.
-
-  //    Chat History:
-  //      {chat_history}
-  //    Follow Up Input: {question}
-  //      Standalone question:`,
-
-  //   qaTemplate: `
-  //  You are an expert assistant helping users understand their PDF document.
-  //   Use the provided context to answer the question clearly and accurately.
-  //   Follow this exact structure in your answer:
-
-  //   1️⃣ Use **markdown-style headers** for organization.  
-  //   2️⃣ Write concise **paragraph explanations** under each section.  
-  //  3️⃣ At the very end, add a **separate paragraph** titled "📄 Page References" listing all page numbers that contain the relevant information.
-
-  //  If the answer cannot be found in the provided context, say:
-  //  > "I couldn’t find enough information in the PDF to answer this question."
-
-  //  ---
-  //   Context:
-  //   {context}
-
-  //   Question:
-  //   {question}
-
-  //    ---
-  //    Answer (format as explained above):`
-  //   }
-  //   );
-
-
-
-  //     // Execute the chain
-  //     const response = await chain.call({
-  //       question: userMessage,
-  //     });
-
-  //     // Extract unique page numbers from source documents
-  //     const pageReferences = [...new Set(
-  //       response.sourceDocuments.map(doc => doc.metadata.pageNumber)
-  //     )].sort((a, b) => a - b);
-
-  //     // Save user message
-  //     await ChatMessage.create({
-  //       sessionId,
-  //       role: 'user',
-  //       message: userMessage,
-  //       pageReferences: []
-  //     });
-
-  //     // Format response with page references
-  //     const formattedResponse = this.formatResponseWithPages(response.text, pageReferences);
-
-  //     // Save assistant message
-  //     await ChatMessage.create({
-  //       sessionId,
-  //       role: 'assistant',
-  //       message: formattedResponse,
-  //       pageReferences
-  //     });
-
-  //     // Update session activity
-  //     session.lastActivityAt = new Date();
-  //     await session.save();
-
-  //     return {
-  //       message: formattedResponse,
-  //       pageReferences,
-  //       sourceChunks: response.sourceDocuments.map(doc => ({
-  //         pageNumber: doc.metadata.pageNumber,
-  //         chunkIndex: doc.metadata.chunkIndex,
-  //         text: doc.pageContent.substring(0, 200) + '...' // Preview
-  //       }))
-  //     };
-
-  //   } catch (error) {
-  //     console.error('Error in chat service:', error);
-  //     throw error;
-  //   }
-  // }
-
+  
   formatResponseWithPages(response, pageNumbers) {
     if (pageNumbers.length === 0) return response;
 
@@ -345,7 +209,7 @@ Helpful Answer (well-structured markdown + verified page references):`
   
   async getAllSessionsForUser(userId) {
     const sessions = await ChatSession.find({ userId })
-      .populate("pdfId", "fileName s3Url pageCount") // optional: include PDF details
+      .populate("pdfId", "fileName s3Url pageCount") 
       .sort({ lastActivityAt: -1 })
       .lean();
 
@@ -366,67 +230,3 @@ export default new ChatService();
 
 
 
-
-
-
-
-
-
- 
-          // `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-          // Chat History:
-          // {chat_history}
-          // Follow Up Input: {question}
-          // Standalone question:`,
-          // qaTemplate: `You are a helpful AI assistant helping users understand their PDF document.
-          // Use the following pieces of context to answer the question at the end.
-          // Always mention the page numbers where you found the relevant information.
-          // If you don't know the answer based on the context, just say that you don't know, don't try to make up an answer.
-          
-          // Context:
-          // {context}
-          
-          // Question: {question}
-          
-          // Helpful Answer (with page references):`
-
-
-
-          /////////////////------------------------------------------------------------------------
-
-
-              // Create the chain with custom prompt
-//       const chain = ConversationalRetrievalQAChain.fromLLM(
-//         this.llm,
-//         vectorStore.asRetriever({
-//           k: 5, // Return top 5 relevant chunks
-//         }),
-//         {
-//           memory,
-//           returnSourceDocuments: true,
-//           questionGeneratorTemplate: `
-// You are an expert assistant helping users understand their PDF document.
-// Use the provided context to answer the question clearly and accurately.
-// Follow this exact structure in your answer:
-
-// 1️ . Use **markdown-style headers** for organization.
-// 2️ . Write concise **paragraph explanations** under each section.
-// 3️ . At the very end, add a **separate paragraph** titled " Page References" listing all page numbers that contain the relevant information.
-
-// If the answer cannot be found in the provided context, say:
-// > "I couldn’t find enough information in the PDF to answer this question."
-
-// ---
-// Context:
-// {context}
-
-// Question:
-// {question}
-
-// ---
-// Answer (format as explained above):` ,
-            
-          
-         
-//         }
-//       );

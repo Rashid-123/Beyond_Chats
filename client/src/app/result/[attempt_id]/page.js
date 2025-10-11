@@ -24,7 +24,7 @@ export default function AttemptResultPage() {
         setLoading(true);
         const token = await getToken({ template: 'long-live' });
         const response = await axios.get(
-          `http://localhost:5000/api/quiz/attempt/${attempt_id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/quiz/attempt/${attempt_id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
