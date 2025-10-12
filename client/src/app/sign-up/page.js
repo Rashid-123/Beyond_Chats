@@ -17,7 +17,7 @@ export default function SignUpPage() {
       setIsSyncing(true);
 
       try {
-        const token = await getToken();
+       const token = await getToken({ template: 'long-live' });
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/sync`, {
           method: 'POST',

@@ -16,7 +16,7 @@ export default function AllQuizzes() {
     const fetchQuizzes = async () => {
       try {
         setLoading(true);
-        const token = await getToken();
+        const token = await getToken({ template: 'long-live' });
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/quiz/all`, {
           headers: { Authorization: `Bearer ${token}` },
         });

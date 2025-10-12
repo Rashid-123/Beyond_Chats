@@ -1,36 +1,4 @@
 
-// 'use client'
-
-// import { ClerkProvider } from '@clerk/nextjs';
-// import Navbar from '@/components/Navbar';
-// import './globals.css';
-// import Footer from '@/components/Footer';
-// import { usePathname } from 'next/navigation';
-
-// // export const metadata = {
-// //   title: 'Beyond_Chats',
-// //   description: 'Beyond Chats',
-// // };
-
-// export default function RootLayout({ children }) {
-
-//   const pathname = usePathname();
-//   const isChatroute = pathname.includes('/chat');
-
-//   return (
-//     <ClerkProvider>
-//       <html lang="en">
-//         <body >
-//           <Navbar />
-//           <div className={isChatroute ? '' : 'pt-15'}>   <main>{children}</main></div>
-//           {!isChatroute && <Footer />}
-//         </body>
-//       </html>
-//     </ClerkProvider>
-//   );
-// }
-
-
 'use client'
 
 import { ClerkProvider, SignedIn } from '@clerk/nextjs';

@@ -17,7 +17,7 @@ export default function UserProgress() {
     const fetchProgress = async () => {
       try {
         setLoading(true);
-        const token = await getToken();
+         const token = await getToken({ template: 'long-live' });
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/progress`, {
           headers: { Authorization: `Bearer ${token}` },
         });

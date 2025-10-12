@@ -150,7 +150,7 @@ export default function PDFUploader({ onUploadSuccess }) {
     }
 
     try {
-      const token = await getToken();
+      const token = await getToken({ template: 'long-live' });
       console.log('Uploading with page-wise text extraction');
 
       // Upload to backend

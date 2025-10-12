@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useAuth } from "@clerk/nextjs";
@@ -29,7 +28,7 @@ export default function ALLpdf({ refreshFlag }) {
     const fetchPdf = async () => {
       try {
         setLoading(true);
-        const token = await getToken();
+         const token = await getToken({ template: 'long-live' });
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/pdf/my-pdfs`, {
           headers: { Authorization: `Bearer ${token}` },
         });

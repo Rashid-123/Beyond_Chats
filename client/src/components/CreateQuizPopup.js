@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState } from "react";
@@ -27,8 +26,7 @@ export default function CreateQuizPopup({ pdf, onClose }) {
   const handleCreateQuiz = async () => {
     try {
       setIsCreating(true);
-      const token = await getToken();
-
+      const token = await getToken({ template: 'long-live' });
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/quiz/generate`,
         {
@@ -53,7 +51,7 @@ export default function CreateQuizPopup({ pdf, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/10 backdrop-blur-xs flex items-center justify-center z-50 p-4">
       <div className="bg-1 rounded-2xl shadow-2xl w-full max-w-lg relative animate-fadeIn">
-        
+
         {/* Header */}
         <div className="border-b border-1 p-4 sm:p-6">
           <button
@@ -62,7 +60,7 @@ export default function CreateQuizPopup({ pdf, onClose }) {
           >
             ✕
           </button>
-          
+
           <h2 className="text-xl sm:text-2xl font-bold text-1 pr-8">
             Create Quiz
           </h2>
@@ -91,7 +89,7 @@ export default function CreateQuizPopup({ pdf, onClose }) {
                     value={formData.title}
                     onChange={handleChange}
                     className="w-full border-2 border-1 rounded-lg p-3 text-1 bg-2 focus:outline-none focus:border-opacity-100 transition-colors text-sm sm:text-base"
-                    style={{ 
+                    style={{
                       borderColor: 'var(--color-border-1)',
                       focusBorderColor: 'var(--color-button-1)'
                     }}
@@ -169,8 +167,8 @@ export default function CreateQuizPopup({ pdf, onClose }) {
           ) : (
             /* Loading State */
             <div className="flex flex-col items-center justify-center py-12 sm:py-16">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 rounded-full animate-spin mb-4" 
-                   style={{ borderColor: 'var(--color-button-1)', borderTopColor: 'transparent' }}></div>
+              <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 rounded-full animate-spin mb-4"
+                style={{ borderColor: 'var(--color-button-1)', borderTopColor: 'transparent' }}></div>
               <p className="text-2 font-medium mb-2 text-sm sm:text-base">Creating your quiz...</p>
               <p className="text-3 text-xs sm:text-sm text-center px-4">
                 Our AI is analyzing your PDF and generating questions
