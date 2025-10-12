@@ -16,7 +16,7 @@ export default function HomePage() {
         alignItems: 'center',
         minHeight: '80vh'
       }}>
-        <p>Loading...</p>
+        <p></p>
       </div>
     );
   }

@@ -15,11 +15,11 @@ pnpm-debug.log*
 *.env
 
 # Next.js (Frontend)
-frontend/.next/
-frontend/out/
-frontend/build/
-frontend/dist/
-frontend/.vercel
+client/.next/
+client/out/
+client/build/
+client/dist/
+client/.vercel
 
 # Production builds
 build/
