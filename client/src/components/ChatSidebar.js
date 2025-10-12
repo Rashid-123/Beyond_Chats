@@ -34,7 +34,7 @@ export default function ChatSidebar() {
     fetchSessions();
   }, [getToken, refreshFlag]);
   
-  // Close sidebar when clicking outside (only on mobile)
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (window.innerWidth < 1024 && isOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
@@ -48,7 +48,7 @@ export default function ChatSidebar() {
   
   return (
     <>
-      {/* Toggle Button - Visible only below lg */}
+    
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden text-white fixed md:top-20 top-18 left-4 z-50 p-1 bg-[#d6a676]   rounded-full shadow-md hover:shadow-lg transition-all"
@@ -57,7 +57,7 @@ export default function ChatSidebar() {
         {isOpen ? <ChevronsLeft size={24} /> : <ChevronsRight size={24} />}
       </button>
       
-      {/* Overlay - Visible only on mobile when sidebar is open */}
+      
       {isOpen && (
         <div 
           className="lg:hidden fixed inset-0 bg-black/20 bg-opacity-50 z-40"
@@ -65,7 +65,7 @@ export default function ChatSidebar() {
         />
       )}
       
-      {/* Sidebar */}
+     
       <div
         ref={sidebarRef}
         className={` 
@@ -79,14 +79,14 @@ export default function ChatSidebar() {
           <div className="p-4 md:pt-20 pt-18 ml-17 font-semibold text-lg text-1">My Chats</div>
         </div>
         
-        {/* Chat sessions list - Scrollable */}
+        
         <div className="p-3 flex-1 overflow-y-auto">
           {sessions.map((session) => {
             const isActive = pathname === `/chat/${session._id}`;
             return (
               <Link key={session._id} href={`/chat/${session._id}`}>
                 <div
-                  className={`px-3 py-3 cursor-pointer rounded-lg transition-colors ${
+                  className={`px-3 py-3 mb-1 cursor-pointer rounded-lg transition-colors hover:bg-[#f6efe5] ${
                     isActive 
                       ? 'bg-3 text-1 font-semibold  border-button-1 pl-3' 
                       : 'text-2 hover:bg-2'

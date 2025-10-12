@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -7,16 +6,18 @@ import { useParams } from 'next/navigation';
 import MessageBubble from '@/components/MessageBubble';
 import { useAuth, useUser } from '@clerk/nextjs';
 import PdfViewer from '@/components/PdfViewer';
-import { FileText, Send, MessageSquare } from 'lucide-react';
+import YouTubeSuggestionsPopup from '@/components/YouTubeSuggestionsPopup';
+import { FileText, Send, MessageSquare, Youtube } from 'lucide-react';
 
 export default function ChatSessionPage() {
     const { sessionId } = useParams();
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
-    const [loading, setLoading] = useState(false); // for sending message
-    const [initialLoading, setInitialLoading] = useState(true); // for fetching messages initially
+    const [loading, setLoading] = useState(false);
+    const [initialLoading, setInitialLoading] = useState(true);
     const [pdf, setPdf] = useState(null);
     const [showPdf, setShowPdf] = useState(false);
+    const [showYoutubeSuggestions, setShowYoutubeSuggestions] = useState(false);
     const chatEndRef = useRef(null);
     const { getToken } = useAuth();
     const { user } = useUser();
@@ -100,10 +101,18 @@ export default function ChatSessionPage() {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-white pt-25 pb-18">
+        <div className="flex flex-col h-screen bg-white pt-25 pb-18 relative">
+            {/* YouTube Suggestions Button - Top Left Floating */}
+            <button
+                onClick={() => setShowYoutubeSuggestions(true)}
+                className="fixed md:top-20 top-17 md:right-8 right-6  bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-lg shadow-lg transition-all z-50 flex items-center justify-center gap-2 cursor-pointer"
+                title="YouTube Suggestions"
+            >
+                <Youtube className="w-5 h-5" />
+            </button>
+
             {/* Chat area */}
             <div className="flex-1 overflow-y-auto p-4 lg:p-6 space-y-4 pb-32">
-                {/* Show only when fetching initial data */}
                 {initialLoading ? (
                     <div className="flex items-center justify-center h-full text-gray-400 italic">
                         Loading messages...
@@ -141,7 +150,7 @@ export default function ChatSessionPage() {
                     <div className="flex items-center bg-2 shadow-sm rounded-xl px-3 py-2 gap-2 border border-[#f3e4d6]">
                         <input
                             type="text"
-                            className="flex-1 border-0 rounded-lg px-4 py-2 text-gray-800 placeholder-gray-400 focus:outline-none "
+                            className="flex-1 border-0 rounded-lg px-4 py-2 text-gray-800 placeholder-gray-400 focus:outline-none"
                             placeholder="Ask something..."
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
@@ -173,6 +182,13 @@ export default function ChatSessionPage() {
             {showPdf && pdf && (
                 <PdfViewer pdf={pdf} onClose={() => setShowPdf(false)} />
             )}
+
+            {/* YouTube Suggestions Popup */}
+            <YouTubeSuggestionsPopup
+                sessionId={sessionId}
+                isOpen={showYoutubeSuggestions}
+                onClose={() => setShowYoutubeSuggestions(false)}
+            />
         </div>
     );
 }

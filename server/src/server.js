@@ -8,7 +8,7 @@ import pdfRoutes from  './routes/pdfRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
 import chatRoutes from "./routes/chatRoutes.js";
-
+import suggestionRoute from "./routes/youtubeSuggestionsRoutes.js"
 dotenv.config();
 
 const app = express();
@@ -24,13 +24,18 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
+//------ pdf and quize related
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/pdf', pdfRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/progress', progressRoutes);
-//
+
+//---- Chat related 
 app.use('/api/chat', chatRoutes);
+
+// ----- Youtube suggestion
+app.use('/api/suggestion', suggestionRoute);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });

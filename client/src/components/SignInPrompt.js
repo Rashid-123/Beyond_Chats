@@ -23,8 +23,8 @@ export default function SignInPrompt() {
           </div>
          
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-1">
-            Welcome to{' '}
-            <span style={{ color: 'var(--color-button-1)' }}>BeyondChat</span>
+            Welcome to{' '}Beyond
+            <span style={{ color: 'var(--color-button-1)' }}>Chat</span>
           </h1>
         </div>
 

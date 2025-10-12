@@ -1,4 +1,4 @@
-// routes/chatRoutes.js
+
 import express from 'express';
 import {S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -160,7 +160,7 @@ router.get("/pdf/:sessionId", userAuth, async (req, res) => {
   try {
     const { sessionId } = req.params;
 
-    // 1️⃣ Find the chat session
+   
     const session = await ChatSession.findById(sessionId);
     if (!session) {
       return res.status(404).json({
@@ -169,7 +169,7 @@ router.get("/pdf/:sessionId", userAuth, async (req, res) => {
       });
     }
 
-    // 2️⃣ Find the associated PDF (exclude pages, text, etc.)
+    
     const pdf = await PDF.findById(session.pdfId).select(
       "fileName fileSize fileType pageCount status isEmbedded createdAt s3Url"
     );
@@ -181,7 +181,7 @@ router.get("/pdf/:sessionId", userAuth, async (req, res) => {
       });
     }
 
-    // 3️⃣ Generate a signed URL for the S3 file
+    
     const command = new GetObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: pdf.s3Url,
@@ -189,7 +189,7 @@ router.get("/pdf/:sessionId", userAuth, async (req, res) => {
 
     const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
 
-    // 4️⃣ Return only the fields your PdfViewer needs
+    
     const pdfObject = {
       _id: pdf._id,
       fileName: pdf.fileName,

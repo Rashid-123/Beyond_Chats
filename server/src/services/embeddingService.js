@@ -86,7 +86,7 @@ class EmbeddingService {
         }
       }
 
-      // Create vector store with namespace as pdfId
+    
       await PineconeStore.fromDocuments(
         documents,
         this.embeddings,

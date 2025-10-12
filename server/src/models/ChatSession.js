@@ -23,7 +23,12 @@ const chatSessionSchema = new mongoose.Schema({
   createdAt: { 
     type: Date, 
     default: Date.now 
-  }
+  },
+
+  youtubeSuggestions: [{
+    title: String,
+    url: String,
+  }],
 });
 
 export const ChatSession = mongoose.model('ChatSession', chatSessionSchema);
