@@ -22,7 +22,7 @@ export default function YouTubeSuggestionsPopup({ sessionId, isOpen, onClose }) 
 
         try {
             const res = await fetch(
-                `http://localhost:5000/api/suggestion/youtube/${sessionId}`
+                `${process.env.NEXT_PUBLIC_API_URL}/api/suggestion/youtube/${sessionId}`
             );
             const data = await res.json();
             if (data.success) {
