@@ -2,27 +2,27 @@
 
 #  *Key Features*
 
-1. **🧠 AI-Driven Explanations with Page References** – Get detailed explanations for quiz questions, where the AI provides context-aware answers along with **page references** from your uploaded PDFs for better understanding.  
+1. **  AI-Driven Explanations with Page References** – Get detailed explanations for quiz questions, where the AI provides context-aware answers along with **page references** from your uploaded PDFs for better understanding.  
 
-2. **📚 RAG based Chat with Your PDFs (Page-Referenced)** – Upload your study materials or notes as PDFs and interact with them directly. The AI responds with **page-referenced insights**, showing exactly where the relevant information exists in your documents.  
+2. ** RAG based Chat with Your PDFs (Page-Referenced)** – Upload your study materials or notes as PDFs and interact with them directly. The AI responds with **page-referenced insights**, showing exactly where the relevant information exists in your documents.  
 
-3. **🎥 YouTube Video Recommendations** – Receive **personalized and topic-based YouTube video suggestions** to explore concepts further and enhance your overall learning experience.  
+3. ** YouTube Video Recommendations** – Receive **personalized and topic-based YouTube video suggestions** to explore concepts further and enhance your overall learning experience.  
 
 ### live Url = https://beyond-chats-seven-khaki.vercel.app/
 ### Demo Video = https://drive.google.com/file/d/1KhjRxyMGzm_aJXptb6UcC_RSybPkVGXS/view?usp=sharing
 
 
 
-## 🧠 System Architecture Overview
+## ✦ System Architecture Overview
 
-### 1️⃣ PDF Upload and Storage Flow
+### 1️ . PDF Upload and Storage Flow
 This diagram shows how a PDF uploaded by the user is securely stored in **AWS S3**, and its extracted text content is saved in **MongoDB**.
 
 ![PDF Upload Flow](./assets/FileUpload.png)
 
 ---
 
-### 2️⃣ Text Chunking and Embedding Creation
+### 2️ . Text Chunking and Embedding Creation
 Text from MongoDB is retrieved **page by page**, divided into smaller **chunks**, and converted into **vector embeddings** using the OpenAI Embeddings API for semantic search.
 
 ![Embedding Process](./assets/Embedding.png)
@@ -30,13 +30,13 @@ Text from MongoDB is retrieved **page by page**, divided into smaller **chunks**
 
 ---
 
-### 3️⃣ User Query Processing and LLM Response Generation  ( RAG based)
+### 3️ . User Query Processing and LLM Response Generation  ( RAG based)
 The user’s message is embedded and compared with **Pinecone** vectors for similarity. The most relevant context is sent to the **LLM**, which generates the final intelligent response.
 
 ![User Query Flow](./assets/Message.png)
 
 
-## 🧩 Tech Stack
+## ✦ Tech Stack
 
 ### **Frontend (Client)**
 
@@ -57,16 +57,16 @@ The user’s message is embedded and compared with **Pinecone** vectors for simi
 
 ---
 
-## ⚙️ Setup Instructions
+## ✦ Setup Instructions
 
-### **1️⃣ Clone the Repository**
+### **1️ . Clone the Repository**
 
 ```bash
 git clone https://github.com/Rashid-123/Beyond_Chats.git
 cd Beyond_Chats
 ```
 
-### **2️⃣ Install Dependencies**
+### **2️ . Install Dependencies**
 
 #### Client
 
@@ -84,7 +84,7 @@ npm install
 
 ---
 
-## 🧾 Environment Variables
+## ✦ Environment Variables
 
 You need to set up two separate `.env` files — one for **client** and one for **server**.
 
@@ -128,7 +128,7 @@ OPENAI_API_KEY= ----
 
 ---
 
-## ▶️ Run the Application
+## ✦ Run the Application
 
 ### **Run Server**
 
@@ -149,7 +149,7 @@ Then open: **[http://localhost:3000](http://localhost:3000)**
 ---
 
 
-## 🧰 Scripts
+## ✦ Scripts
 
 ### **Client Scripts**
 
@@ -168,20 +168,16 @@ npm run start   # Run production server
 
 
 
-## 🧑‍💻 Author
+## ✦ Author
 
 **Shadan Rashid**
 Full-Stack Developer 
 
-📧 Email: [shadanrashid786@gmail.com](mailto:shadanrashid786@gmail.com)
-🌐 GitHub: [github.com/Rashid-123](https://github.com/Rashid-123)
+ Email: [shadanrashid786@gmail.com](mailto:shadanrashid786@gmail.com)
+ GitHub: [github.com/Rashid-123](https://github.com/Rashid-123)
 
 ---
 
-## 🏁 License
-
-This project is licensed under the **MIT License** — feel free to use and modify it as you like.
-
 ---
 
-### ⭐ If you like this project, consider giving it a star on GitHub!
+### ✦ If you like this project, consider giving it a star on GitHub!
